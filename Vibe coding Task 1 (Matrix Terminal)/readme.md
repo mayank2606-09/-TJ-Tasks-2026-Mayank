@@ -7,4 +7,4 @@ After that i focused on applying the easter eggs and fun parts of the project li
 
 I also added the animations mid process so it will look more like what was described in the Task.
 
-<h2>pls hire me</h2>
+<h2>pls hire me!!🥲🥲</h2>
