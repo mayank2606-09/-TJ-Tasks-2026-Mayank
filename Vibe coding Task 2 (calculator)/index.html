@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuantumCalc — Scientific Calculator</title>
+  <link rel="stylesheet" href="/theme.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <main class="relative min-h-screen overflow-hidden px-4 py-8 sm:px-8">
+    <div class="app-grid pointer-events-none absolute inset-0"></div>
+    <div class="ambient-field pointer-events-none absolute inset-0" aria-hidden="true">
+      <span class="ambient-orbit ambient-orbit-one"></span>
+      <span class="ambient-orbit ambient-orbit-two"></span>
+      <span class="ambient-particle particle-one"></span>
+      <span class="ambient-particle particle-two"></span>
+      <span class="ambient-particle particle-three"></span>
+      <span class="ambient-particle particle-four"></span>
+      <span class="ambient-pulse"></span>
+    </div>
+    <div class="relative mx-auto max-w-6xl">
+      <header class="mb-8 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3" aria-label="QuantumCalc home">
+          <span class="grid h-10 w-10 place-items-center rounded-xl bg-[var(--color-primary)] text-lg font-bold text-[var(--color-primary-contrast)] shadow-lg shadow-violet-500/30">∿</span>
+          <span>
+            <span class="block font-[var(--font-heading)] text-lg font-bold tracking-tight">QUANTUM<span class="text-cyan-300">CALC</span></span>
+            <span class="block text-[10px] font-semibold uppercase tracking-[.28em] text-[var(--color-muted)]">v3.14 · lab interface</span>
+          </span>
+        </a>
+        <div class="flex items-center gap-2">
+          <button id="motionToggle" class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[var(--color-muted)] transition hover:border-cyan-300/30 hover:text-cyan-200" type="button" aria-pressed="false">
+            Ambient motion: on
+          </button>
+          <button id="dramaToggle" class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[var(--color-muted)] transition hover:border-rose-300/30 hover:text-rose-200" type="button" aria-pressed="true">
+            Dramatic errors: on
+          </button>
+          <div class="hidden items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/5 px-3 py-2 text-xs font-semibold text-emerald-300 sm:flex">
+            <span class="h-2 w-2 animate-pulse rounded-full bg-emerald-300"></span>
+            SYSTEMS NOMINAL
+          </div>
+        </div>
+      </header>
+
+      <section class="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr]">
+        <div class="max-w-xl">
+          <p class="mb-4 text-xs font-bold uppercase tracking-[.35em] text-cyan-300">The over-engineered scientific calculator</p>
+          <h1 class="font-[var(--font-heading)] text-5xl font-bold leading-[.98] tracking-[-.06em] sm:text-7xl">Math,<br><span class="bg-gradient-to-r from-violet-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">with consequences.</span></h1>
+          <p class="mt-6 max-w-md text-base leading-7 text-[var(--color-muted)]">A precision instrument for ordinary equations, extraordinary confidence, and the occasional accidental breach of spacetime.</p>
+          <div class="mt-8 flex flex-wrap gap-3 text-xs font-semibold text-[var(--color-muted)]">
+            <span class="rounded-full border border-white/10 px-3 py-2">◈ 3D DEPTH ENGINE</span>
+          </div>
+        </div>
+
+        <div id="calculator" class="calculator-shell lab-frame glass relative rounded-[var(--radius)] p-4 sm:p-6" style="perspective: 1000px;">
+          <span class="hud-corner top-left pointer-events-none"></span>
+          <span class="hud-corner bottom-right pointer-events-none"></span>
+          <div class="mb-5 flex items-center justify-between px-1">
+            <div class="flex gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-rose-400"></span><span class="h-2.5 w-2.5 rounded-full bg-amber-300"></span><span class="h-2.5 w-2.5 rounded-full bg-emerald-300"></span></div>
+            <span class="instrument-mark font-mono text-[10px] uppercase text-[var(--color-muted)]">particle accelerator / 01</span>
+          </div>
+          <div class="scanline mb-4 overflow-hidden rounded-[calc(var(--radius)*.7)] border border-white/10 bg-[#080b18] p-5 text-right shadow-inner shadow-black/40">
+            <div id="history" class="mb-3 h-5 truncate font-mono text-xs text-[var(--color-muted)]" aria-live="polite" aria-label="Previous calculation">ready for input_</div>
+            <div id="display" class="display-glow min-h-14 truncate font-[var(--font-heading)] text-4xl font-semibold tracking-tight text-cyan-100" role="status" aria-live="polite" aria-atomic="true" aria-label="Calculator display">0</div>
+            <div id="status" class="mt-2 h-4 text-[10px] font-semibold uppercase tracking-[.2em] text-violet-300" role="status" aria-live="polite" aria-atomic="true">awaiting your genius</div>
+          </div>
+          <div class="mb-4 grid grid-cols-4 gap-3">
+            <button class="key key-cyan h-12 text-base font-semibold" data-action="sin">sin</button>
+            <button class="key key-cyan h-12 text-base font-semibold" data-action="cos">cos</button>
+            <button class="key key-cyan h-12 text-base font-semibold" data-action="tan">tan</button>
+            <button class="key key-cyan h-12 text-base font-semibold" data-action="log">log</button>
+            <button class="key key-cyan h-12 text-base font-semibold" data-action="sqrt">√ x</button>
+            <button class="key key-cyan h-12 text-base font-semibold" data-action="power">xʸ</button>
+            <button class="key key-cyan h-12 text-base font-semibold" data-action="pi">π</button>
+            <button class="key key-cyan h-12 text-base font-semibold" data-action="inverse">1/x</button>
+          </div>
+          <div class="grid grid-cols-4 gap-3">
+            <button class="key h-16 text-xl font-semibold text-rose-300" data-action="clear">AC</button>
+            <button class="key h-16 text-xl" data-value="(">(</button>
+            <button class="key h-16 text-xl" data-value=")">)</button>
+            <button class="key h-16 text-xl font-semibold text-amber-200" data-action="backspace" aria-label="Backspace">⌫</button>
+            <button class="key h-16 text-xl" data-value="7">7</button>
+            <button class="key h-16 text-xl" data-value="8">8</button>
+            <button class="key h-16 text-xl" data-value="9">9</button>
+            <button class="key key-accent h-16 text-2xl font-bold" data-value="/">÷</button>
+            <button class="key h-16 text-xl" data-value="4">4</button>
+            <button class="key h-16 text-xl" data-value="5">5</button>
+            <button class="key h-16 text-xl" data-value="6">6</button>
+            <button class="key key-accent h-16 text-2xl font-bold" data-value="*">×</button>
+            <button class="key h-16 text-xl" data-value="1">1</button>
+            <button class="key h-16 text-xl" data-value="2">2</button>
+            <button class="key h-16 text-xl" data-value="3">3</button>
+            <button class="key key-accent h-16 text-2xl font-bold" data-value="-">−</button>
+            <button class="key col-span-2 h-16 text-lg" data-value="0">0</button>
+            <button class="key h-16 text-xl" data-value=".">.</button>
+            <button class="key key-accent h-16 text-2xl font-bold" data-value="+">+</button>
+            <button class="key key-accent col-span-4 h-14 text-2xl font-bold" data-action="equals">=</button>
+          </div>
+          <div class="depth-panel mt-4 grid grid-cols-3 gap-2 rounded-[calc(var(--radius)*.5)] px-3 py-2 text-center font-mono text-[9px] uppercase tracking-[.12em] text-[var(--color-muted)]">
+            <span><strong class="block text-cyan-300">DEG</strong>angle mode</span>
+            <span><strong class="block text-violet-300">64 BIT</strong>precision</span>
+            <span><strong class="block text-emerald-300">LIVE</strong>core status</span>
+          </div>
+          <p class="mt-3 text-center font-mono text-[10px] text-[var(--color-muted)]">FLOATING POINT · NO REFUNDS</p>
+          <p class="mt-3 text-center text-[10px] text-[var(--color-muted)]">Keyboard: numbers and operators · Enter to calculate · Backspace to delete · Esc to clear</p>
+        </div>
+      </section>
+      <div id="explosionMessage" class="explosion-message hidden" role="alert">
+        Bro, you just tore a hole in the spacetime continuum.
+      </div>
+      <div class="flex justify-center">
+        <button id="rebuildButton" class="rebuild-button hidden max-w-md" type="button">↻ REBUILD THE CALCULATOR</button>
+      </div>
+      <footer class="mt-12 flex flex-col justify-between gap-5 border-t border-white/10 pt-5 text-xs text-[var(--color-muted)] sm:flex-row sm:items-end">
+        <div>
+          <span class="block">© 2024 QuantumCalc Research Division</span>
+          <span class="mt-1 block">Built for people who think calculators need lore.</span>
+        </div>
+        <div class="rounded-[calc(var(--radius)*.55)] border border-cyan-300/15 bg-cyan-300/5 px-4 py-3 text-left sm:text-right">
+          <span class="block font-mono text-[9px] uppercase tracking-[.2em] text-cyan-300">project credits</span>
+          <span class="mt-1 block font-[var(--font-heading)] text-sm font-semibold text-[var(--color-text)]">Mayank <span class="text-[var(--color-muted)]">× co-partner</span> GPT</span>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script src="/script.js"></script>
+</body>
+
+</html>

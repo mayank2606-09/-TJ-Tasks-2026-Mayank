@@ -1,0 +1,84 @@
+:root {
+  --color-primary: #f0008c;
+  --color-primary-contrast: #ffffff;
+  --color-bg: #fff7a8;
+  --color-surface: #ffffff;
+  --color-text: #5b16b8;
+  --color-muted: #a4147d;
+  --font-heading: "Trebuchet MS", Arial, sans-serif;
+  --font-body: "Trebuchet MS", Arial, sans-serif;
+  --radius: 1rem;
+  --color-accent-blue: #00cfff;
+  --color-accent-yellow: #fff200;
+  --color-accent-mint: #00e99a;
+  --color-accent-orange: #ff7a00;
+  --color-accent-purple: #8c00ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at 50% -10%, var(--color-surface) 0, color-mix(in srgb, var(--color-surface) 78%, transparent) 18%, transparent 42%),
+    radial-gradient(circle at 0% 18%, color-mix(in srgb, var(--color-accent-orange) 34%, transparent) 0, transparent 28%),
+    radial-gradient(circle at 100% 20%, color-mix(in srgb, var(--color-accent-blue) 42%, transparent) 0, transparent 31%),
+    radial-gradient(circle at 18% 100%, color-mix(in srgb, var(--color-accent-mint) 48%, transparent) 0, transparent 32%),
+    radial-gradient(circle at 88% 92%, color-mix(in srgb, var(--color-primary) 28%, transparent) 0, transparent 30%),
+    linear-gradient(135deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-accent-yellow) 72%, var(--color-bg)) 48%, var(--color-bg) 100%);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+.scanlines {
+  background-image: linear-gradient(color-mix(in srgb, var(--color-primary) 10%, transparent) 1px, transparent 1px);
+  background-size: 100% 7px;
+  pointer-events: none;
+}
+
+.glow-text {
+  text-shadow:
+    3px 3px 0 var(--color-accent-yellow),
+    0 8px 22px color-mix(in srgb, var(--color-primary) 38%, transparent);
+}
+
+.glow-box {
+  box-shadow:
+    0 18px 42px color-mix(in srgb, var(--color-primary) 22%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--color-accent-blue) 38%, transparent);
+}
+
+.cursor::after {
+  content: "_";
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
